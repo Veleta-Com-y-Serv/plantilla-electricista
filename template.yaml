@@ -1,0 +1,121 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: electricista
+nombre: Electricista
+descripcion: "Web de plano azul para electricistas: averías a un toque, servicios, boletines, precios claros y zonas."
+sectores:
+  - electricidad
+  - { id: electricista, nombre: Electricista }
+  - { id: instalaciones-electricas, nombre: Instalaciones eléctricas }
+  - { id: telecomunicaciones, nombre: Telecomunicaciones y antenas }
+  - { id: autoconsumo-solar, nombre: Autoconsumo solar }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: servicios, nombre: Servicios }
+  - { id: urgencias, nombre: Averías y urgencias }
+  - { id: trabajos, nombre: Trabajos hechos }
+  - { id: proceso, nombre: Cómo trabajamos }
+  - { id: tarifas, nombre: Precios orientativos }
+  - { id: zonas, nombre: Zonas de trabajo }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: presupuesto, nombre: Pedir presupuesto }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: contacto, nombre: Contacto }
+estilo: blueprint
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-electricista.noexpertise.com
+activa: true
+orden: 660
+
+# Páginas propias (docs/plantillas.md § Fichas por elemento y páginas por zona). Espejo en src/data/fichas.ts.
+# Cada servicio con `detalle` tiene su página en /servicios/<slug>/ y cada zona con `texto`, en /zonas/<slug>/.
+fichas:
+  - { lista: servicios, campo: items, ruta: servicios, nombre: Servicio, tipo: Service }
+zonas:
+  ruta: zonas
+
+# Varias páginas (docs/plantillas.md § Varias páginas): reparto recomendado al activar «Varias páginas».
+# Inicio se queda con la portada, las averías y cómo trabajamos.
+paginas:
+  - { ruta: servicios, titulo: Servicios, secciones: "servicios; tarifas; zonas" }
+  - { ruta: trabajos, titulo: Trabajos, secciones: "trabajos; opiniones" }
+  - { ruta: presupuesto, titulo: Presupuesto, secciones: "presupuesto; preguntas; contacto" }
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu empresa"
+    pregunta: "¿Cómo se llama tu empresa y qué trabajos de electricidad hacéis?"
+    ayuda: "Por ejemplo: instalaciones en viviendas y naves, boletines, averías, placas solares o cargadores de coche, y en qué pueblo o ciudad estáis."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto, secciones.hero.destacado.titulo, secciones.hero.destacado.texto]
+  - id: contacto
+    titulo: "Cómo te llaman"
+    pregunta: "¿Dónde tenéis el taller y cómo os pueden llamar o escribir?"
+    ayuda: "El teléfono es lo más importante: sale arriba, en la portada y en el botón de llamar del móvil. Lo que dejes vacío no sale en tu web."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: servicios
+    titulo: "Tus servicios"
+    pregunta: "¿Qué trabajos hacéis? Uno por línea, con una frase de cada uno si quieres."
+    ayuda: "Por ejemplo: cambio de cuadros, boletines para dar de alta la luz, iluminación LED, antenas, domótica o puntos de recarga."
+    tipo: lista
+    campos: [secciones.servicios.items]
+  - id: urgencias
+    titulo: "Averías"
+    pregunta: "¿Atendéis averías urgentes? Cuéntame cuándo, dónde y qué averías os llaman más."
+    ayuda: "Por ejemplo: todos los días del año, en Tudela y pueblos cercanos; saltan los diferenciales, sin luz en casa. Si no hacéis urgencias, salta este paso."
+    tipo: texto
+    campos: [secciones.urgencias.titulo, secciones.urgencias.texto, secciones.urgencias.items, secciones.urgencias.nota]
+  - id: trabajos
+    titulo: "Trabajos hechos"
+    pregunta: "Cuéntame algunos trabajos que hayáis hecho: qué, dónde y, si quieres, la potencia o los metros. Uno por línea."
+    ayuda: "Por ejemplo: cambio de cuadro en un piso de Tudela; cargador de 7,4 kW en un garaje de Corella. Las fotos las pones luego."
+    tipo: lista
+    campos: [secciones.trabajos.trabajos]
+  - id: proceso
+    titulo: "Cómo trabajáis"
+    pregunta: "¿Cómo es un encargo con vosotros, desde que os llaman hasta que termináis?"
+    ayuda: "Por ejemplo: visita, presupuesto por escrito, trabajo y boletín."
+    tipo: texto
+    campos: [secciones.proceso.titulo, secciones.proceso.items]
+  - id: tarifas
+    titulo: "Precios"
+    pregunta: "¿Quieres enseñar algunos precios orientativos? Cuéntame el trabajo y lo que cuesta, uno por línea."
+    ayuda: "Por ejemplo: desplazamiento y primera hora, 45 €; boletín de vivienda, desde 120 €. Solo los que tú digas; si prefieres no poner precios, salta este paso y el apartado no sale."
+    tipo: lista
+    campos: [secciones.tarifas.tarifas]
+  - id: zonas
+    titulo: "Dónde trabajáis"
+    pregunta: "¿En qué pueblos o barrios trabajáis?"
+    ayuda: "Escribe los pueblos separados por comas y, si quieres, hasta cuántos kilómetros os desplazáis."
+    tipo: texto
+    campos: [secciones.zonas.titulo, secciones.zonas.texto, secciones.zonas.items]
+  - id: presupuesto
+    titulo: "Pedir presupuesto"
+    pregunta: "¿Cómo dais presupuesto? ¿Vais a verlo, es sin compromiso, en cuánto contestáis?"
+    ayuda: "Si sois empresa instaladora autorizada o dais garantía por escrito, dilo aquí."
+    tipo: texto
+    campos: [secciones.presupuesto.titulo, secciones.presupuesto.texto, secciones.presupuesto.nota, secciones.presupuesto.items]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más a menudo? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Por ejemplo: cuánto tardáis en venir por una avería, si hacéis el boletín o si se puede poner un cargador en un garaje comunitario."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada y, si quieres, las de vuestros trabajos, la zona y el taller."
+    ayuda: "Sube las tuyas o elige una del banco. Las que no cambies se quedan como están. En tu web salen en azul, como una copia de plano."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.zonas.imagen, secciones.contacto.imagen]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

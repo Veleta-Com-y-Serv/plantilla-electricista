@@ -1,0 +1,31 @@
+---
+// Preguntas frecuentes: el titular a la izquierda (se queda quieto al bajar en escritorio) y las preguntas en
+// acordeón con filetes (`details/summary`, sin JavaScript). `preguntas: [{pregunta, respuesta}]`. Sin preguntas no se pinta.
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const lista = s ? s.preguntas.filter((p) => p?.pregunta) : [];
+---
+
+{
+  s && lista.length > 0 && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <div class="preguntas-rejilla">
+        <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        <div>
+          {lista.map((p, i) => (
+            <details class="faq" open={i === 0}>
+              <summary>
+                {p.pregunta}
+                <span class="faq-signo" aria-hidden="true" />
+              </summary>
+              <p class="faq-respuesta">{p.respuesta}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </Seccion>
+  )
+}

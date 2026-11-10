@@ -1,0 +1,66 @@
+---
+// Trabajos hechos: fotos en cianotipia, la primera a todo el ancho y el resto en pares de 7 y 5 columnas.
+// `trabajos: [{titulo, texto, lugar, medida, imagen, imagen_antes}]`. Con `imagen_antes`, el par antes/después
+// (rótulos `etiqueta_antes` / `etiqueta_despues`, por defecto «Antes» / «Después»). Bajo cada foto, un pie con
+// filete: título, lugar (enlaza a su página de zona si la tiene), la medida en mono («7,4 kW») y el texto.
+import { seccion } from '../../data/site';
+import type { Trabajo } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Foto from '../ui/Foto.astro';
+import Icono from '../ui/Icono.astro';
+import { zonasConPagina } from '../../lib/paginas';
+import { slugify } from '../../lib/slug';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const trabajos = s ? (s.trabajos as Trabajo[]).filter((t) => t?.titulo) : [];
+const hay = Boolean(s && (s.titulo || s.texto || trabajos.length > 0));
+const antes = String(s?.etiqueta_antes || 'Antes');
+const despues = String(s?.etiqueta_despues || 'Después');
+const zonaDe = (lugar?: string) => {
+  const l = slugify(lugar ?? '');
+  return l ? zonasConPagina().find((z) => z.slug === l || slugify(z.nombre) === l) : undefined;
+};
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      {trabajos.length > 0 && (
+        <ul class="trabajos-lista">
+          {trabajos.map((t) => {
+            const z = zonaDe(t.lugar);
+            return (
+              <li class="trabajo">
+                {t.imagen && t.imagen_antes ? (
+                  <div class="trabajo-fotos trabajo-fotos--par">
+                    <Foto natural src={t.imagen_antes} alt={`${t.titulo}, ${antes.toLowerCase()}`} rotulo={antes} />
+                    <Foto natural src={t.imagen} alt={`${t.titulo}, ${despues.toLowerCase()}`} rotulo={despues} ancho={1400} alto={788} />
+                  </div>
+                ) : (
+                  (t.imagen || t.imagen_antes) && <Foto natural src={t.imagen || t.imagen_antes} alt={t.titulo} ancho={1400} alto={1050} />
+                )}
+                <div class="trabajo-pie">
+                  <h3>{t.titulo}</h3>
+                  {(t.lugar || t.medida) && (
+                    <p class="trabajo-meta">
+                      {t.lugar && (
+                        <span>
+                          <Icono nombre="mapa" tam={16} />
+                          {z ? <a href={z.url}>{t.lugar}</a> : t.lugar}
+                        </span>
+                      )}
+                      {t.medida && <span class="num">{t.medida}</span>}
+                    </p>
+                  )}
+                  {t.texto && <p class="trabajo-texto">{t.texto}</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </Seccion>
+  )
+}

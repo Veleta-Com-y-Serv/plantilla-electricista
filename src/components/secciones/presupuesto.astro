@@ -1,0 +1,44 @@
+---
+// Pedir presupuesto: a la izquierda, título, texto y las garantías (`items: [{titulo, texto, icono}]`) en filas con
+// filete; a la derecha, el formulario completo (nombre, teléfono, localidad, tipo de trabajo con los servicios,
+// mensaje) dibujado como el cajetín de un plano. `nota` en la cabecera del bloque; `boton_formulario` para el botón.
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const boton = (s?.boton_formulario as string) || 'Pedir presupuesto';
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <div class="presupuesto-rejilla">
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {items.length > 0 && (
+            <ul class="garantias">
+              {items.map((it) => (
+                <li>
+                  <Icono nombre={it.icono} tam={24} />
+                  <p class="garantias-titulo">{it.titulo}</p>
+                  {it.texto && <p class="garantias-texto">{it.texto}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div class="bloque-formulario">
+          <p class="bloque-formulario-cabeza">
+            <span>{s.titulo || boton}</span>
+            {s.nota && <span>{s.nota}</span>}
+          </p>
+          <FormularioContacto modelo="completo" prefijo={`${Astro.props.id}-f`} boton={boton} />
+        </div>
+      </div>
+    </Seccion>
+  )
+}

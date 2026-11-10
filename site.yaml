@@ -1,0 +1,221 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Una sola página: el menú apunta a anclas (#id-de-sección).
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas planas: nunca una lista dentro de un elemento de lista. Precios y medidas, siempre entre comillas.
+nombre: Electricidad Ribera
+eslogan: Instalaciones, boletines y averías en Tudela y la Ribera. Instaladores autorizados desde el primer cable.
+sector: electricista
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = nombre en texto.
+colores:
+  primario: "#012352"   # azul de lámina oscuro: banda de averías, pie y sombras de las fotos
+  acento: "#eef4fb"     # la línea blanca: botón principal y foco
+  fondo: "#0d3970"      # azul de plano (la lámina)
+  texto: "#eef6fd"      # tinta blanca: letra, filetes y cotas
+contacto:
+  telefono: "948 000 000"
+  email: taller@electricidadribera.es
+  direccion: Polígono La Serna, calle C 14, 31500 Tudela (Navarra)
+  horario: "Lunes a viernes, de 8:00 a 14:00 y de 16:00 a 19:30. Averías, todos los días."
+  whatsapp: "+34 600 000 000"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Servicios, url: "/#servicios" }
+  - { texto: Averías, url: "/#urgencias" }
+  - { texto: Trabajos, url: "/#trabajos" }
+  - { texto: Precios, url: "/#tarifas" }
+  - { texto: Zonas, url: "/#zonas" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Pedir presupuesto, url: "/#presupuesto" }
+seo:
+  titulo: Electricidad Ribera · Electricista en Tudela y la Ribera
+  descripcion: "Instalaciones eléctricas, boletines, averías urgentes, puntos de recarga y placas solares en Tudela y la Ribera. Presupuesto sin compromiso."
+  tipo: Electrician
+marca_pie: true
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Empresa instaladora autorizada en Tudela
+    titulo: Electricistas en Tudela y la Ribera
+    texto: "Instalaciones, boletines y averías en casas y naves, con precio cerrado."
+    imagen: /fotos/hero.jpg
+    destacado: { titulo: Averías todos los días, texto: "Llámanos y te decimos a qué hora llegamos." }
+    cta: { texto: Llamar ahora, url: "tel:+34948000000" }
+    cta_secundario: { texto: Pedir presupuesto, url: "/#presupuesto" }
+
+  servicios:
+    activa: true
+    antetitulo: Servicios
+    titulo: Todo lo eléctrico de tu casa o tu negocio
+    texto: "Viviendas, comercios, comunidades y naves. Un mismo equipo para la instalación, los papeles y el mantenimiento."
+    items:
+      - titulo: Instalaciones eléctricas
+        texto: "Nuevas o reformadas, en viviendas, locales y naves."
+        icono: cable
+        imagenes: "/fotos/servicio-instalacion.jpg; /fotos/trabajo-nave.jpg"
+        detalle: |
+          Hacemos la instalación eléctrica completa de viviendas, locales y naves, tanto en obra nueva como en reformas. Calculamos la potencia que necesitas, separamos los circuitos para que una avería en la cocina no te deje sin luz en toda la casa y dejamos los enchufes y puntos de luz donde de verdad los vas a usar.
+
+          En las reformas aprovechamos para cambiar el cableado antiguo, que suele ser la causa de muchos disparos y calentamientos, y para poner la toma de tierra al día. En locales y naves preparamos la instalación para la maquinaria, el alumbrado y, si hace falta, la fuerza trifásica.
+
+          Antes de empezar te damos el presupuesto cerrado por escrito. Al terminar probamos cada circuito contigo, te explicamos el cuadro y te entregamos el certificado de instalación registrado en Industria.
+      - titulo: Boletines y certificados
+        texto: "Boletín (CIE) para dar de alta o subir la potencia."
+        icono: certificado
+        imagenes: "/fotos/servicio-medicion.jpg"
+        detalle: |
+          El boletín eléctrico, que hoy se llama certificado de instalación eléctrica (CIE), es el documento que pide la compañía para dar de alta la luz, cambiar de titular después de mucho tiempo sin suministro o subir la potencia contratada. Solo lo puede firmar una empresa instaladora autorizada.
+
+          Vamos a la vivienda o al local, revisamos la instalación y medimos el aislamiento y la toma de tierra. Si todo está bien, hacemos el certificado y lo registramos en Industria para que puedas pedir el alta sin esperas. Si hay algo que arreglar antes, te lo explicamos con claridad y te damos el precio, sin obligarte a nada.
+
+          También hacemos las revisiones periódicas que piden los locales de pública concurrencia, los garajes y algunas comunidades de vecinos.
+      - titulo: Averías y urgencias
+        texto: "Todos los días del año, también fines de semana."
+        icono: alerta
+        detalle: |
+          Si te has quedado sin luz, saltan los diferenciales o huele a quemado, llámanos. Te atendemos todos los días del año y, al coger el teléfono, te decimos a qué hora podemos estar en tu casa, en tu comercio o en tu nave.
+
+          Mientras llegamos, te explicamos por teléfono qué puedes revisar con seguridad: qué interruptor ha saltado, cómo desconectar un aparato sospechoso o cuándo es mejor no tocar nada. Muchas veces eso ya ayuda a localizar la avería.
+
+          Al llegar buscamos el origen del problema, no solo el síntoma. Si la avería se puede reparar en el momento, la dejamos resuelta y probada. Si hace falta material especial, te damos el precio antes de seguir. El desplazamiento y la primera hora tienen un precio fijo que te decimos al llamar.
+      - titulo: Cuadros eléctricos
+        texto: "Cambio de cuadros viejos y protecciones nuevas."
+        icono: cuadro
+        imagenes: "/fotos/trabajo-cuadro.jpg; /fotos/trabajo-cuadro-antes.jpg"
+        detalle: |
+          Muchas casas de la Ribera siguen teniendo el cuadro de fusibles de hace cuarenta años, sin diferencial o con uno solo para toda la vivienda. Es lo primero que conviene cambiar: un cuadro al día protege a las personas de las descargas y a la instalación de los calentamientos.
+
+          Sustituimos el cuadro por uno nuevo con interruptor general, diferenciales y magnetotérmicos para cada circuito, bien rotulados para que sepas qué es cada cosa. Si hace falta, separamos circuitos que estaban juntos, como la cocina y el resto de la casa, para que no salte todo a la vez.
+
+          El cambio de un cuadro de vivienda suele hacerse en una mañana. Te avisamos de cuánto tiempo estarás sin luz y, al terminar, lo dejamos probado y con el certificado si lo necesitas para la compañía.
+      - titulo: Puntos de recarga
+        texto: "Cargadores para el coche eléctrico en casa o en el garaje."
+        icono: cargador
+        imagenes: "/fotos/trabajo-recarga.jpg"
+        detalle: |
+          Cargar el coche eléctrico en casa es lo más cómodo y lo más barato, pero no basta con un enchufe cualquiera. Instalamos el punto de recarga con su propia línea y sus protecciones, para que cargue cada noche con seguridad y sin que salte la luz.
+
+          En una casa con garaje, llevamos la línea desde el cuadro y ajustamos la potencia para que puedas cargar sin subir la factura más de lo necesario. En un garaje comunitario, la línea va desde tu propio contador hasta tu plaza; solo hace falta comunicarlo a la comunidad y nosotros nos ocupamos del resto.
+
+          Te asesoramos sobre el cargador que mejor encaja con tu coche y con tu instalación, hacemos la legalización y te ayudamos con la documentación de las ayudas que haya en ese momento.
+      - { titulo: Iluminación LED, texto: "Ahorro en casas, comercios, naves y alumbrado exterior.", icono: bombilla }
+      - { titulo: Autoconsumo solar, texto: "Placas en tejado para viviendas y pequeños negocios.", icono: solar }
+      - { titulo: Antenas y telecomunicaciones, texto: "Antenas de televisión, redes de datos y porteros.", icono: antena }
+      - { titulo: Domótica, texto: "Persianas, luces y calefacción desde el móvil.", icono: domotica }
+
+  urgencias:
+    activa: true
+    antetitulo: Averías
+    titulo: ¿Te has quedado sin luz?
+    texto: "Atendemos averías en viviendas, comercios y naves todos los días del año. Llámanos y te decimos cuándo podemos estar ahí."
+    nota: "Fuera del horario de taller, el desplazamiento tiene recargo. Te lo decimos antes de salir."
+    items:
+      - { titulo: Saltan los diferenciales }
+      - { titulo: Sin luz en toda la casa }
+      - { titulo: Enchufes o luces que no funcionan }
+      - { titulo: Olor a quemado o chispas }
+      - { titulo: Avería en el cuadro o en el contador }
+
+  trabajos:
+    activa: true
+    antetitulo: Trabajos hechos
+    titulo: Instalaciones terminadas en la Ribera
+    texto: "Algunos encargos recientes, de una vivienda a una nave."
+    etiqueta_antes: Antes
+    etiqueta_despues: Después
+    trabajos:
+      - { titulo: Cambio de cuadro en un piso de los años 70, lugar: Tudela, medida: "9 circuitos", texto: "Del cuadro de fusibles a uno nuevo con diferenciales, circuitos separados y boletín.", imagen: /fotos/trabajo-cuadro.jpg, imagen_antes: /fotos/trabajo-cuadro-antes.jpg }
+      - { titulo: Punto de recarga en garaje comunitario, lugar: Cintruénigo, medida: "7,4 kW", texto: "Línea propia desde el contador hasta la plaza y legalización incluida.", imagen: /fotos/trabajo-recarga.jpg }
+      - { titulo: Autoconsumo en una casa de pueblo, lugar: Corella, medida: "4,5 kWp", texto: "Diez paneles en tejado de teja, inversor y trámite de compensación.", imagen: /fotos/trabajo-solar.jpg }
+      - { titulo: Alumbrado LED de una nave agrícola, lugar: Ribaforada, medida: "1.200 m²", texto: "Campanas LED y cuadro de alumbrado nuevo, sin parar el trabajo de la nave.", imagen: /fotos/trabajo-nave.jpg }
+
+  proceso:
+    activa: true
+    antetitulo: Cómo trabajamos
+    titulo: De la llamada al boletín, sin líos
+    items:
+      - { titulo: Nos llamas, texto: "Por teléfono, WhatsApp o el formulario. Si es una avería, te decimos cuándo llegamos." }
+      - { titulo: Vamos a verlo, texto: "Revisamos la instalación y te explicamos qué hace falta, sin tecnicismos." }
+      - { titulo: Precio cerrado, texto: "Presupuesto por escrito antes de empezar. La factura no trae sorpresas." }
+      - { titulo: Trabajo y papeles, texto: "Lo dejamos probado, limpio y con el boletín o el certificado si hace falta." }
+
+  tarifas:
+    activa: true
+    antetitulo: Precios orientativos
+    titulo: Lo que cuesta, antes de empezar
+    texto: "Los trabajos más habituales, con IVA. Para obras más grandes, presupuesto cerrado por escrito."
+    nota: "Precios con IVA incluido. El material especial se presupuesta aparte."
+    tarifas:
+      - { nombre: Desplazamiento y primera hora, texto: "En Tudela y pueblos a menos de 15 km.", precio: "45 €", categoria: Averías }
+      - { nombre: Hora adicional, texto: "Por fracciones de media hora.", precio: "30 €", categoria: Averías }
+      - { nombre: Urgencia fuera de horario, texto: "Noches, sábados por la tarde y festivos.", precio: "desde 80 €", categoria: Averías }
+      - { nombre: Boletín de vivienda (CIE), texto: "Revisión, certificado y registro en Industria.", precio: "desde 120 €", categoria: Boletines y trámites }
+      - { nombre: Cambio de cuadro eléctrico, texto: "Vivienda tipo, con diferenciales y magnetotérmicos nuevos.", precio: "desde 380 €", categoria: Instalaciones }
+      - { nombre: Punto de recarga en garaje, texto: "Línea, protecciones y legalización. El cargador, aparte.", precio: "desde 650 €", categoria: Instalaciones }
+
+  zonas:
+    activa: true
+    antetitulo: Dónde trabajamos
+    titulo: Tudela y toda la Ribera
+    texto: "Salimos del taller a cualquier pueblo en un radio de 30 km. Si el tuyo no está en la lista, pregúntanos."
+    imagen: /fotos/zonas.jpg
+    titulo_pagina: "Electricista en {zona}"
+    texto_pagina: "Instalaciones, boletines y averías en {zona}. Empresa instaladora autorizada, con presupuesto por escrito y garantía."
+    items:
+      - titulo: Tudela
+        texto: "Aquí tenemos el taller, en el polígono La Serna, y aquí hacemos buena parte de nuestros trabajos: pisos del ensanche que necesitan un cuadro nuevo, casas del casco antiguo con instalaciones de hace décadas, comercios del centro y naves de los polígonos. En Tudela solemos llegar a una avería en el mismo día, y muchas veces en menos de una hora. Hacemos boletines para altas de luz, cambios de cuadro, puntos de recarga en garajes comunitarios y placas solares en viviendas unifamiliares."
+      - titulo: Cintruénigo
+        texto: "En Cintruénigo trabajamos sobre todo en viviendas y en garajes comunitarios, donde cada vez más vecinos instalan su punto de recarga para el coche eléctrico. Llevamos la línea desde el contador hasta la plaza, hacemos la legalización y te ayudamos con la comunicación a la comunidad. También atendemos averías, cambios de cuadro y boletines para altas o subidas de potencia, con el mismo precio de desplazamiento que en Tudela."
+      - titulo: Corella
+        texto: "Corella tiene muchas casas de pueblo con tejados amplios y bien orientados, ideales para el autoconsumo solar. Estudiamos tu consumo, te decimos cuántas placas te compensan y nos encargamos del trámite de compensación de excedentes. Además, renovamos instalaciones antiguas de casas que se reforman, ponemos iluminación LED en bodegas y almacenes y hacemos los boletines que pide la compañía."
+      - titulo: Cascante
+        texto: "En Cascante hacemos instalaciones completas en reformas de viviendas, desde la regata hasta el último enchufe, y mantenimiento eléctrico de comercios y pequeñas empresas. Revisamos también las instalaciones de comunidades de vecinos: alumbrado de escaleras, garajes y porteros automáticos. Si tienes una avería, llámanos y te decimos a qué hora podemos estar ahí."
+      - { titulo: Ribaforada }
+      - { titulo: Fitero }
+      - { titulo: Murchante }
+      - { titulo: Castejón }
+      - { titulo: Fustiñana }
+      - { titulo: Arguedas }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen quienes nos llaman
+    testimonios:
+      - { texto: "Se nos fue la luz un domingo por la noche y a la media hora estaban en casa. Encontraron el fallo en el cuadro y nos explicaron cómo evitarlo.", autor: Marisa L., nota: "Avería, Tudela" }
+      - { texto: "Nos pusieron el cargador en el garaje de la comunidad y se encargaron de todos los papeles. Precio cerrado y sin sorpresas.", autor: Íñigo y Laura, nota: "Punto de recarga, Cintruénigo" }
+      - { texto: "Necesitaba el boletín para dar de alta la luz del local y en tres días lo tenía registrado.", autor: Javier M., nota: "Boletín, Cascante" }
+
+  presupuesto:
+    activa: true
+    antetitulo: Presupuesto sin compromiso
+    titulo: Cuéntanos qué necesitas
+    texto: "Rellena el formulario y te llamamos para concretar. Si hace falta, vamos a verlo sin coste."
+    nota: "Te contestamos el mismo día laborable."
+    boton_formulario: Pedir presupuesto
+    items:
+      - { titulo: Empresa instaladora autorizada, texto: "Inscrita en el registro de Industria de Navarra.", icono: certificado }
+      - { titulo: Precio cerrado por escrito, texto: "Lo que firmas es lo que pagas.", icono: euro }
+      - { titulo: Garantía de los trabajos, texto: "Por escrito, en cada factura.", icono: escudo }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que nos preguntan antes de llamar
+    preguntas:
+      - { pregunta: "¿Cuánto tardáis en venir por una avería?", respuesta: "En Tudela solemos llegar en el día. Al llamar te decimos la hora aproximada y, si es una urgencia, salimos en cuanto podemos." }
+      - { pregunta: "¿Hacéis el boletín para dar de alta la luz?", respuesta: "Sí. Revisamos la instalación, hacemos el certificado (CIE) y lo registramos en Industria. Si hay que arreglar algo antes, te lo decimos con precio." }
+      - { pregunta: "¿Puedo poner un cargador en el garaje comunitario?", respuesta: "Sí. Basta con comunicarlo a la comunidad. Llevamos la línea desde tu contador hasta tu plaza y nos encargamos de la legalización." }
+      - { pregunta: "¿Me compensa poner placas solares?", respuesta: "Depende de tu consumo y de tu tejado. Vamos a verlo y te decimos, sin compromiso, cuántas placas te compensan y lo que ahorrarías." }
+      - { pregunta: "¿Trabajáis con comunidades y empresas?", respuesta: "Sí. Hacemos el mantenimiento de zonas comunes, locales y naves, con factura y contrato si lo necesitas." }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Llámanos o pásate por el taller
+    texto: "Estamos en el polígono La Serna, junto a la rotonda de la carretera de Corella. Aparcamiento en la puerta."
+    imagen: /fotos/contacto.jpg

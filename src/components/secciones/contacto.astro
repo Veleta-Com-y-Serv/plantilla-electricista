@@ -1,0 +1,68 @@
+---
+// Contacto: título, texto y los datos de `contacto` como filas de registro (el teléfono en grande); `imagen` opcional
+// en cianotipia a la derecha. Si la sección `presupuesto` no está activa, aquí sale el formulario.
+import { seccion, site, tel, whatsapp, mapa } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Foto from '../ui/Foto.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const conFormulario = !seccion('presupuesto');
+const hayDatos = Boolean(c.telefono || c.whatsapp || c.email || c.direccion || c.horario);
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <div class:list={['contacto-rejilla', { 'contacto-rejilla--foto': s.imagen }]}>
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {hayDatos && (
+            <dl class="vias">
+              {c.telefono && (
+                <div class="via">
+                  <dt>Teléfono</dt>
+                  <dd><a class="via-grande" href={tel(c.telefono)}>{c.telefono}</a></dd>
+                </div>
+              )}
+              {c.whatsapp && (
+                <div class="via">
+                  <dt>WhatsApp</dt>
+                  <dd><a href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">{c.whatsapp}</a></dd>
+                </div>
+              )}
+              {c.email && (
+                <div class="via">
+                  <dt>Correo</dt>
+                  <dd><a href={`mailto:${c.email}`}>{c.email}</a></dd>
+                </div>
+              )}
+              {c.direccion && (
+                <div class="via">
+                  <dt>Taller</dt>
+                  <dd><a href={mapa(c.direccion)} rel="noopener" target="_blank">{c.direccion}</a></dd>
+                </div>
+              )}
+              {c.horario && (
+                <div class="via">
+                  <dt>Horario</dt>
+                  <dd>{c.horario}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+        </div>
+        {s.imagen && <Foto src={s.imagen} alt={altSeccion(s)} class="contacto-foto" />}
+      </div>
+      {conFormulario && (
+        <div class="bloque-formulario contacto-formulario">
+          <p class="bloque-formulario-cabeza"><span>Escríbenos</span></p>
+          <FormularioContacto modelo="contacto" prefijo={`${Astro.props.id}-f`} boton="Enviar mensaje" asunto={`Mensaje desde la web de ${site.nombre}`} />
+        </div>
+      )}
+    </Seccion>
+  )
+}

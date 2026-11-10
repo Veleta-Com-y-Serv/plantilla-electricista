@@ -1,0 +1,31 @@
+---
+// Cómo trabajamos: las etapas sobre una cota larga, con un remate a 45° en cada etapa (en móvil, la cota baja en
+// vertical). `items: [{titulo, texto}]` en una lista ordenada real; el número va en mono.
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const hay = Boolean(s && (s.titulo || s.texto || items.length > 0));
+const columnas = Math.min(Math.max(items.length, 1), 4);
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      {items.length > 0 && (
+        <ol class="etapas" style={`--cols:${columnas}`}>
+          {items.map((it, i) => (
+            <li class="etapa">
+              <span class="etapa-num num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{it.titulo}</h3>
+              {it.texto && <p>{it.texto}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
+    </Seccion>
+  )
+}

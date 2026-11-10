@@ -1,0 +1,55 @@
+---
+// Averías y urgencias: la banda fuerte (color primario). A la izquierda, título, texto y el teléfono de contacto en
+// grande sobre una cota, con el botón de WhatsApp; a la derecha, las averías típicas (`items: [{titulo}]`) como filas
+// numeradas y la `nota` (recargos, horario). Sin teléfono, el WhatsApp; sin ninguno, un botón al contacto.
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+import { enlace } from '../../lib/multipagina';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const hay = Boolean(s && (s.titulo || s.texto || items.length > 0 || c.telefono || c.whatsapp));
+const wa = whatsapp(c.whatsapp, 'Hola, tengo una avería eléctrica');
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja--3 urgencias">
+      <div class:list={['urgencias-rejilla', { 'urgencias-rejilla--sola': items.length === 0 && !s.nota }]}>
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {c.telefono && (
+            <div>
+              <a class="telefono-grande" href={tel(c.telefono)} aria-label={`Llamar al ${c.telefono}`}>{c.telefono}</a>
+              <div class="cota telefono-cota" aria-hidden="true" />
+            </div>
+          )}
+          <div class="botones">
+            {c.telefono && (
+              <a class="btn" href={tel(c.telefono)}><Icono nombre="telefono" tam={20} /> Llamar ahora</a>
+            )}
+            {wa && (
+              <a class="btn-sec" href={wa} rel="noopener" target="_blank"><Icono nombre="whatsapp" tam={20} /> Escribir por WhatsApp</a>
+            )}
+            {!c.telefono && !wa && <a class="btn" href={enlace('/#contacto')}>Contactar</a>}
+          </div>
+        </div>
+        {(items.length > 0 || s.nota) && (
+          <div>
+            {items.length > 0 && (
+              <ul class="sintomas">
+                {items.map((it, i) => (
+                  <li><span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{it.titulo}</li>
+                ))}
+              </ul>
+            )}
+            {s.nota && <p class="nota">{s.nota}</p>}
+          </div>
+        )}
+      </div>
+    </Seccion>
+  )
+}

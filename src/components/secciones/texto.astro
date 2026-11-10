@@ -1,0 +1,49 @@
+---
+// Apartado de texto genérico: antetítulo, título, párrafos (líneas en blanco entre ellos), `imagen` opcional en
+// cianotipia, lista con filetes (`items: [{titulo, texto, icono}]`) y botón (`cta`).
+// Lo usan los apartados nuevos que pide el cliente (site.yaml: `tipo: texto`).
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Foto from '../ui/Foto.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const hay = Boolean(s && (s.titulo || s.texto || s.imagen || items.length > 0));
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete">
+      <div class:list={['texto-rejilla', { 'texto-rejilla--foto': s.imagen }]}>
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} />
+          {s.texto && (
+            <div class="parrafos">
+              {parrafos(s.texto).map((p) => <p>{p}</p>)}
+            </div>
+          )}
+          {items.length > 0 && (
+            <ul class="lista-filetes">
+              {items.map((it) => (
+                <li>
+                  <Icono nombre={it.icono} tam={24} />
+                  <p class="garantias-titulo">{it.titulo}</p>
+                  {it.texto && <p class="garantias-texto">{it.texto}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.cta?.url && (
+            <div class="botones mt-8">
+              <a class="btn" href={s.cta.url}>{s.cta.texto}</a>
+            </div>
+          )}
+        </div>
+        {s.imagen && <Foto src={s.imagen} alt={altSeccion(s)} />}
+      </div>
+    </Seccion>
+  )
+}

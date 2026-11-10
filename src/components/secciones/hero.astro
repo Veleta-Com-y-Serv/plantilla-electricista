@@ -1,0 +1,69 @@
+---
+// Portada «plano»: un filete y el titular en mayúsculas a todo el ancho; debajo, a la izquierda, el texto, los botones
+// (`cta`: llamar, con `url: "tel:…"`; `cta_secundario`: presupuesto) y el cajetín del plano con los datos para llamar
+// (`destacado` {titulo, texto}, teléfono y WhatsApp de `contacto`); a la derecha, la foto en cianotipia a sangre.
+// Sin foto, el texto ocupa todo el ancho. Sin destacado ni teléfono, no hay cajetín.
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import Foto from '../ui/Foto.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const esTel = (u?: string) => Boolean(u && u.startsWith('tel:'));
+const hayCajetin = Boolean(s?.destacado || c.telefono || c.whatsapp);
+const H = primera ? 'h1' : 'h2';
+---
+
+{
+  s && (
+    <section id={id} class="portada hoja">
+      {(s.antetitulo || s.titulo) && (
+        <div class="contenedor portada-cabeza">
+          {s.antetitulo && <p class="etiqueta">{s.antetitulo}</p>}
+          {s.titulo && <H class="portada-titulo">{s.titulo}</H>}
+        </div>
+      )}
+      <div class:list={['portada-cuerpo', { 'portada-cuerpo--sin-foto': !s.imagen }]}>
+        <div class="portada-texto">
+          {s.texto && <p class="portada-parrafo">{s.texto}</p>}
+          {(s.cta || s.cta_secundario) && (
+            <div class="botones">
+              {s.cta && (
+                <a class="btn" href={s.cta.url}>
+                  {esTel(s.cta.url) && <Icono nombre="telefono" tam={20} />}
+                  {s.cta.texto}
+                </a>
+              )}
+              {s.cta_secundario && <a class="btn-sec" href={s.cta_secundario.url}>{s.cta_secundario.texto}</a>}
+            </div>
+          )}
+          {hayCajetin && (
+            <dl class="cajetin">
+              {s.destacado && (
+                <div class="cajetin-ancha">
+                  <dt>{s.destacado.titulo || 'Aviso'}</dt>
+                  {s.destacado.texto && <dd class="cajetin-texto">{s.destacado.texto}</dd>}
+                </div>
+              )}
+              {c.telefono && (
+                <div class:list={{ 'cajetin-ancha': !c.whatsapp }}>
+                  <dt>Teléfono</dt>
+                  <dd><a class="cajetin-dato" href={tel(c.telefono)}>{c.telefono}</a></dd>
+                </div>
+              )}
+              {c.whatsapp && (
+                <div class:list={{ 'cajetin-ancha': !c.telefono }}>
+                  <dt>WhatsApp</dt>
+                  <dd><a class="cajetin-dato" href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">{c.whatsapp}</a></dd>
+                </div>
+              )}
+            </dl>
+          )}
+        </div>
+        {s.imagen && <Foto src={s.imagen} alt={altHero()} ancho={1920} alto={1080} prioridad={primera} class="portada-foto" />}
+      </div>
+    </section>
+  )
+}

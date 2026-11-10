@@ -1,0 +1,57 @@
+---
+// Precios orientativos como tabla de registro (segunda hoja, un paso más oscura): referencia en mono, trabajo,
+// qué incluye y precio. `tarifas: [{nombre, texto, precio, categoria}]`; con más de una `categoria`, filas de grupo.
+// Precios siempre como texto («45 €», «desde 120 €»). Solo se pinta si alguna fila tiene precio: sin precios no hay
+// tabla de precios (la plataforma nunca los inventa). En móvil cada fila se apila.
+import { seccion } from '../../data/site';
+import type { Tarifa } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const filas = s ? ((s.tarifas as Tarifa[]) ?? []).filter((t) => t && (t.nombre || t.titulo)) : [];
+const hayPrecios = filas.some((t) => String(t.precio ?? '').trim());
+const categorias = [...new Set(filas.map((t) => String(t.categoria ?? '').trim()))];
+const grupos = categorias.length > 1 ? categorias.map((cat) => ({ cat, filas: filas.filter((t) => String(t.categoria ?? '').trim() === cat) })) : [{ cat: '', filas }];
+let n = 0;
+---
+
+{
+  s && hayPrecios && (
+    <Seccion id={Astro.props.id} class="hoja--2">
+      <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <table class="tabla-registro">
+        <caption class="sr-only">{s.titulo || 'Precios'}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Ref.</th>
+            <th scope="col">Trabajo</th>
+            <th scope="col">Qué incluye</th>
+            <th scope="col">Precio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {grupos.map((g) => (
+            <>
+              {g.cat && (
+                <tr class="grupo"><th colspan="4" scope="colgroup">{g.cat}</th></tr>
+              )}
+              {g.filas.map((t) => {
+                n += 1;
+                return (
+                  <tr>
+                    <td class="t-ref num">{`P-${String(n).padStart(2, '0')}`}</td>
+                    <th scope="row" class="t-nombre">{t.nombre || t.titulo}</th>
+                    <td class="t-texto">{t.texto}</td>
+                    <td class="t-precio">{t.precio}</td>
+                  </tr>
+                );
+              })}
+            </>
+          ))}
+        </tbody>
+      </table>
+      {s.nota && <p class="nota">{s.nota}</p>}
+    </Seccion>
+  )
+}

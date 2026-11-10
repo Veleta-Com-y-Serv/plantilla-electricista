@@ -1,0 +1,57 @@
+---
+// Zonas de trabajo: a la izquierda, título, `texto` (radio de actuación) y la `imagen` opcional en cianotipia;
+// a la derecha, el índice de pueblos (`items: [{titulo}]`) numerado en mono, en dos columnas con filete. Las zonas con
+// `texto` tienen página propia (src/lib/paginas.ts): su fila enlaza a ella.
+import { seccion } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Foto from '../ui/Foto.astro';
+import { enlaceDe } from '../../lib/paginas';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const hay = Boolean(s && (s.titulo || s.texto || s.imagen || items.length > 0));
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja hoja-filete zonas">
+      <div class:list={['zonas-rejilla', { 'zonas-rejilla--sin-foto': !s.imagen && items.length === 0 }]}>
+        <div>
+          <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {s.imagen && <Foto src={s.imagen} alt={altSeccion(s)} ancho={1400} alto={788} class="zonas-foto" />}
+          {s.cta && (
+            <div class="botones">
+              <a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a>
+            </div>
+          )}
+        </div>
+        {items.length > 0 && (
+          <ul class="indice">
+            {items.map((it, i) => {
+              const url = enlaceDe(it);
+              const numero = <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>;
+              return (
+                <li>
+                  {url ? (
+                    <a class="indice-enlace" href={url}>
+                      {numero}
+                      <span class="indice-nombre">{it.titulo}</span>
+                      <span class="indice-ver">Ver la zona</span>
+                    </a>
+                  ) : (
+                    <>
+                      {numero}
+                      <span class="indice-nombre">{it.titulo}</span>
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </Seccion>
+  )
+}

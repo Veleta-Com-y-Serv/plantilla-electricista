@@ -1,0 +1,39 @@
+---
+// Servicios como registro de plano: celdas con filete compartido, número de referencia en mono, icono de línea,
+// título y una frase (`items: [{titulo, texto, icono}]`). Los servicios con `detalle` tienen página propia
+// (src/lib/paginas.ts): toda la celda enlaza a ella. Tres o cuatro columnas según cuántos haya, para no dejar huecos.
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+import { enlaceDe } from '../../lib/paginas';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it?.titulo) : [];
+const n = items.length;
+const hay = Boolean(s && (s.titulo || s.texto || n > 0));
+const columnas = n % 4 === 0 ? 4 : n % 3 === 0 ? 3 : n >= 7 ? 4 : 3;
+---
+
+{
+  s && hay && (
+    <Seccion id={Astro.props.id} class="hoja">
+      <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      {n > 0 && (
+        <ul class:list={['registro', `registro--${columnas}`]}>
+          {items.map((it, i) => (
+            <li class="celda">
+              <div class="celda-cabeza">
+                <span class="celda-ref num">{String(i + 1).padStart(2, '0')}</span>
+                {it.icono && <Icono nombre={it.icono} tam={32} />}
+              </div>
+              <h3>{enlaceDe(it) ? <a class="celda-enlace" href={enlaceDe(it)}>{it.titulo}</a> : it.titulo}</h3>
+              {it.texto && <p class="celda-texto">{it.texto}</p>}
+              {enlaceDe(it) && <span class="celda-ver" aria-hidden="true">Ver el servicio</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </Seccion>
+  )
+}

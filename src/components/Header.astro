@@ -1,0 +1,68 @@
+---
+// Cabecera «plano»: arriba, una franja en tinta blanca con el horario y el correo de `contacto`, que se retira al
+// bajar; debajo, la barra fija con el nombre en mayúsculas, el menú, el teléfono y el botón de la cabecera.
+// Sin JavaScript para fijarla (position: sticky con top negativo). En móvil, menú plegable con <details>.
+// Aspecto en src/styles/global.css (.cabecera-envoltorio, .banner, .cabecera).
+import { site, tel } from '../data/site';
+import type { Enlace } from '../data/site';
+import Icono from './ui/Icono.astro';
+interface Props { cta?: Enlace | null }
+const { cta = null } = Astro.props;
+const c = site.contacto;
+const hayBanner = Boolean(c.horario || c.email);
+---
+
+<div class="cabecera-envoltorio" style={hayBanner ? undefined : '--alto-banner:0px'}>
+  {
+    hayBanner && (
+      <div class="banner">
+        <div class="contenedor banner-fila">
+          <p>{c.horario}</p>
+          {c.email && <p><a href={`mailto:${c.email}`}>{c.email}</a></p>}
+        </div>
+      </div>
+    )
+  }
+  <header class="cabecera">
+    <div class="contenedor cabecera-fila">
+      <a href="/" class="marca" aria-label={`${site.nombre}, inicio`}>
+        {
+          site.logo ? (
+            <img src={site.logo} alt={site.nombre} class="marca-logo" width="160" height="40" />
+          ) : (
+            <span class="marca-nombre">{site.nombre}</span>
+          )
+        }
+      </a>
+      <nav class="cabecera-nav" aria-label="Menú principal">
+        {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+      </nav>
+      {c.telefono && (
+        <a class="cabecera-tel" href={tel(c.telefono)}>
+          <Icono nombre="telefono" tam={18} />
+          {c.telefono}
+        </a>
+      )}
+      {cta && cta.url && <a href={cta.url} class="btn cabecera-cta">{cta.texto}</a>}
+      {
+        (site.menu.length > 0 || (cta && cta.url)) && (
+          <details class="menu-movil">
+            <summary>
+              <span class="menu-movil-icono" aria-hidden="true" />
+              <span>Menú</span>
+            </summary>
+            <nav class="menu-movil-panel" aria-label="Menú">
+              {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+              {cta && cta.url && <a href={cta.url} class="btn">{cta.texto}</a>}
+            </nav>
+          </details>
+        )
+      }
+    </div>
+  </header>
+</div>
+<script is:inline>
+  document.querySelectorAll('.menu-movil a').forEach(function (a) {
+    a.addEventListener('click', function () { a.closest('details').open = false; });
+  });
+</script>

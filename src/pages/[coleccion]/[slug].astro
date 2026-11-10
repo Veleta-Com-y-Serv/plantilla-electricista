@@ -1,0 +1,115 @@
+---
+// Ficha de un elemento con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /servicios/<slug>/.
+// Estilo plano: migas, título en mayúsculas, texto corto, precio si lo hay y botones (presupuesto y llamar), con la
+// foto principal en cianotipia al lado. Debajo, el `detalle` en párrafos y, al lado, la tabla de datos y el cajetín
+// para llamar; las fotos (`imagenes`) en rejilla; y otros servicios de la misma lista como celdas de registro.
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/ui/Foto.astro';
+import Icono from '../../components/ui/Icono.astro';
+import Titular from '../../components/ui/Titular.astro';
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+import { enlace, rutaDeSeccion } from '../../lib/multipagina';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.antetitulo || f.seccion.titulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: rutaDeSeccion(f.idSeccion) },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const presupuesto = seccion('presupuesto') ? enlace('/#presupuesto') : site.boton_cabecera?.url || enlace('/#contacto');
+const textoPresupuesto = site.boton_cabecera?.texto || 'Pedir presupuesto';
+const wa = whatsapp(c.whatsapp, `Hola, quiero información sobre ${f.titulo.toLowerCase()}`);
+const otras = relacionadas(f, 4);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class="hoja pagina-cabeza">
+    <div class="contenedor">
+      <nav aria-label="Migas de pan" class="migas">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <div class:list={['pagina-hero', { 'pagina-hero--foto': f.imagen }]}>
+        <div class="titular">
+          <p class="etiqueta">{f.categoria || f.def.nombre}</p>
+          <h1 class="pagina-titulo mt-3">{f.titulo}</h1>
+          {f.texto && <p class="titular-texto">{f.texto}</p>}
+          {f.precio && <p class="pagina-precio">{f.precio}</p>}
+          <div class="botones">
+            <a class="btn" href={presupuesto}>{textoPresupuesto}</a>
+            {c.telefono && <a class="btn-sec" href={tel(c.telefono)}><Icono nombre="telefono" tam={18} /> {c.telefono}</a>}
+          </div>
+        </div>
+        {f.imagen && <Foto src={f.imagen} alt={f.titulo} prioridad />}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion hoja hoja-filete">
+    <div class="contenedor pagina-cuerpo">
+      <article class="texto-largo pagina-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      <aside class="pagina-lado">
+        {f.datos.length > 0 && (
+          <dl class="datos-tabla">
+            {f.datos.map((d) => <div><dt>{d.etiqueta}</dt><dd>{d.valor}</dd></div>)}
+          </dl>
+        )}
+        <div class="caja-llamar">
+          <p class="caja-llamar-titulo">¿Lo necesitas? Te damos precio antes de empezar.</p>
+          <a class="btn" href={presupuesto}>{textoPresupuesto}</a>
+          {c.telefono && <a class="enlace" href={tel(c.telefono)}><Icono nombre="telefono" tam={18} /> Llamar al {c.telefono}</a>}
+          {wa && <a class="enlace" href={wa} target="_blank" rel="noopener"><Icono nombre="whatsapp" tam={18} /> Escribir por WhatsApp</a>}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="seccion hoja hoja-filete" aria-label={`Fotos de ${f.titulo}`}>
+      <div class="contenedor">
+        <ul class="galeria-ficha">
+          {f.imagenes.map((src, i) => (
+            <li><Foto src={src} alt={`${f.titulo}, foto ${i + 2}`} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="seccion hoja--2">
+      <div class="contenedor">
+        <Titular antetitulo={nombreSeccion} titulo={`Más ${nombreSeccion.toLowerCase()}`} class="mb-10" />
+        <ul class:list={['registro', otras.length % 3 === 0 ? 'registro--3' : 'registro--4']}>
+          {otras.map((o) => (
+            <li class="celda">
+              <div class="celda-cabeza">
+                {o.icono && <Icono nombre={o.icono} tam={28} />}
+              </div>
+              <h3><a href={o.url} class="celda-enlace">{o.titulo}</a></h3>
+              {o.texto && <p class="celda-texto">{o.texto}</p>}
+              <span class="celda-ver" aria-hidden="true">Ver el servicio</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>

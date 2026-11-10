@@ -1,0 +1,18 @@
+---
+// Foto en cianotipia: la imagen en gris, multiplicada sobre la luz y aclarada con el primario (sombras azules,
+// luces blancas), dentro de un doble filete. Lo hace el CSS (.foto en global.css), también con las fotos del cliente.
+// `rotulo` pinta una etiqueta en la esquina (p. ej. «Antes»). `natural` deja la foto en su color (trabajos hechos:
+// el cliente enseña su obra tal cual; la cianotipia se queda para la portada y las fotos de ambiente).
+import Imagen from './Imagen.astro';
+interface Props { src?: string; alt?: string; ancho?: number; alto?: number; prioridad?: boolean; class?: string; rotulo?: string; natural?: boolean }
+const { src, alt = '', ancho = 1200, alto = 900, prioridad = false, class: clase = '', rotulo, natural = false } = Astro.props;
+---
+
+{
+  src && (
+    <div class:list={['foto', natural && 'foto--natural', clase]}>
+      <Imagen src={src} alt={alt} ancho={ancho} alto={alto} prioridad={prioridad} />
+      {rotulo && <span class="foto-rotulo">{rotulo}</span>}
+    </div>
+  )
+}

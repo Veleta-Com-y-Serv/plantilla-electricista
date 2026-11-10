@@ -1,0 +1,27 @@
+---
+// Titular de sección: antetítulo como etiqueta discreta (tal cual lo escribe el cliente), título en mayúsculas de
+// plano (Chakra Petch) y una línea de entrada. Con `partido`, el título a la izquierda y la entrada a la derecha.
+// El tamaño del título sale del ancho de su caja (container queries): nunca parte palabras.
+interface Props { titulo?: string; antetitulo?: string; texto?: string; partido?: boolean; class?: string; nivel?: 1 | 2 }
+const { titulo, antetitulo, texto, partido = false, class: clase = '', nivel = 2 } = Astro.props;
+const H = nivel === 1 ? 'h1' : 'h2';
+---
+
+{
+  (titulo || antetitulo || texto) &&
+    (partido ? (
+      <div class:list={['cabeza', clase]}>
+        <div class="titular">
+          {antetitulo && <p class="etiqueta">{antetitulo}</p>}
+          {titulo && <H class="titulo-seccion">{titulo}</H>}
+        </div>
+        {texto && <p class="titular-texto">{texto}</p>}
+      </div>
+    ) : (
+      <div class:list={['titular', clase]}>
+        {antetitulo && <p class="etiqueta">{antetitulo}</p>}
+        {titulo && <H class="titulo-seccion">{titulo}</H>}
+        {texto && <p class="titular-texto">{texto}</p>}
+      </div>
+    ))
+}

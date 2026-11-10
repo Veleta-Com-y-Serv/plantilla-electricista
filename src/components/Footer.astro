@@ -1,0 +1,103 @@
+---
+// Pie «declaración»: el eslogan en grande (mayúsculas de plano), debajo los datos de contacto como celdas de un
+// cajetín, el menú y las redes, y la línea legal. «Web creada con NoExpertise» si site.yaml → marca_pie es true.
+// En móvil añade la barra fija con «Llamar» y «WhatsApp» (solo si hay teléfono o WhatsApp).
+import { site, tel, mapa, whatsapp } from '../data/site';
+import Icono from './ui/Icono.astro';
+const c = site.contacto;
+const redes = Object.entries(site.redes).filter(([, url]) => url);
+const anio = new Date().getFullYear();
+const hayDatos = Boolean(c.telefono || c.whatsapp || c.email || c.direccion || c.horario);
+---
+
+<footer class="pie hoja--3">
+  <div class="contenedor">
+    <p class="pie-frase">{site.eslogan || site.nombre}</p>
+    {
+      hayDatos && (
+        <dl class="pie-registro">
+          {c.telefono && (
+            <div>
+              <dt>Teléfono</dt>
+              <dd><a class="pie-tel" href={tel(c.telefono)}>{c.telefono}</a></dd>
+            </div>
+          )}
+          {c.whatsapp && (
+            <div>
+              <dt>WhatsApp</dt>
+              <dd><a href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">{c.whatsapp}</a></dd>
+            </div>
+          )}
+          {c.email && (
+            <div>
+              <dt>Correo</dt>
+              <dd><a href={`mailto:${c.email}`}>{c.email}</a></dd>
+            </div>
+          )}
+          {c.direccion && (
+            <div>
+              <dt>Taller</dt>
+              <dd><a href={mapa(c.direccion)} rel="noopener" target="_blank">{c.direccion}</a></dd>
+            </div>
+          )}
+          {c.horario && (
+            <div>
+              <dt>Horario</dt>
+              <dd>{c.horario}</dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
+    <div class="pie-enlaces">
+      <nav aria-label="Menú del pie">
+        <ul class="pie-menu">
+          <li><a href="/">{site.nombre}</a></li>
+          {site.menu.map((e) => <li><a href={e.url}>{e.texto}</a></li>)}
+        </ul>
+      </nav>
+      {
+        redes.length > 0 && (
+          <ul class="pie-redes">
+            {redes.map(([red, url]) => (
+              <li>
+                <a href={url} rel="noopener" target="_blank" aria-label={red}>
+                  <Icono nombre={red} tam={20} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+  <div class="contenedor pie-legal">
+    <span>© {anio} {site.nombre}</span>
+    <a href="/aviso-legal">Aviso legal y privacidad</a>
+    {
+      site.marca_pie && (
+        <span class="pie-noexpertise">
+          Web creada con <a href="https://noexpertise.com" rel="noopener">NoExpertise</a>
+        </span>
+      )
+    }
+  </div>
+</footer>
+{
+  (c.telefono || c.whatsapp) && (
+    <nav class="barra-movil" aria-label="Contacto rápido">
+      {c.telefono && (
+        <a class="barra-movil-llamar" href={tel(c.telefono)}>
+          <Icono nombre="telefono" tam={20} />
+          Llamar
+        </a>
+      )}
+      {c.whatsapp && (
+        <a class="barra-movil-whatsapp" href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">
+          <Icono nombre="whatsapp" tam={20} />
+          WhatsApp
+        </a>
+      )}
+    </nav>
+  )
+}
