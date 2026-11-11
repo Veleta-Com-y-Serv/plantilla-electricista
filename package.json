@@ -1,6 +1,6 @@
 {
     "name": "plantilla-electricista",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Plantilla NoExpertise «Electricista» basada en AstroWind (MIT)",
     "private": true,
     "type": "module",
